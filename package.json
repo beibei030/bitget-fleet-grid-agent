@@ -1,0 +1,24 @@
+{
+  "name": "bitget-fleet-grid-agent",
+  "version": "1.0.0",
+  "description": "Bitget Hackathon — VPS 舰队网格 Agent（22格/±2.4%/5x）",
+  "type": "module",
+  "scripts": {
+    "backtest": "tsx src/run-backtest.ts",
+    "paper": "tsx src/run-paper.ts",
+    "live:demo": "tsx src/run-live-demo.ts",
+    "agent:grid": "tsx src/run-agent-grid.ts",
+    "agent:backtest": "tsx src/run-agent-backtest.ts",
+    "setup:mcp": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-bitget-mcp.ps1 -LoadEnv",
+    "all": "tsx src/run-backtest.ts && tsx src/run-paper.ts && tsx src/run-agent-backtest.ts",
+    "submit:prepare": "tsx src/run-submit-pack.ts"
+  },
+  "keywords": ["bitget", "hackathon", "grid-trading", "agent"],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "bitget-client": "^1.1.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

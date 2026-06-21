@@ -1,0 +1,46 @@
+{
+  "symbol": "ETHUSDT",
+  "price": 1737.81,
+  "funding8h": 0.000022,
+  "decision": {
+    "regime": "UNCLEAR",
+    "gridMode": "flat",
+    "confidence": 0.4,
+    "signals": {
+      "emaFast": 1726.2733325498682,
+      "emaSlow": 1726.8606794757447,
+      "emaSpreadPct": -0.03401240950456161,
+      "adx": 22.04860761167233,
+      "rsi": 64.16510318949351,
+      "funding8h": 0.000022,
+      "price": 1737.8
+    },
+    "reasoning": [
+      "EMA12/26 价差 -0.03%",
+      "ADX(14)=22.0 RSI=64.2 funding=0.0022%",
+      "信号不一致 → 空仓观望",
+      "置信度 40% 不足 → 空仓"
+    ],
+    "mcpToolsUsed": [
+      "futures_get_candles",
+      "futures_get_ticker"
+    ]
+  },
+  "plan": {
+    "symbol": "ETHUSDT",
+    "price": 1737.81,
+    "lower": 1737.81,
+    "upper": 1737.81,
+    "gridCount": 0,
+    "spacing": 0,
+    "sizeBase": 0,
+    "leverage": 5,
+    "gridMode": "flat",
+    "buyOrders": [],
+    "sellOrders": []
+  },
+  "decidedAt": "2026-06-21T03:25:34.085Z",
+  "mode": "dry-run",
+  "orderCount": 0,
+  "executed": false
+}

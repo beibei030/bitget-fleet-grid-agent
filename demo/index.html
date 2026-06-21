@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bitget Fleet Grid Agent — Hackathon Demo</title>
+  <style>
+    :root { --bg:#0a0e17; --card:#121826; --border:#1e293b; --text:#f1f5f9; --muted:#94a3b8; --accent:#38bdf8; --green:#4ade80; --amber:#fbbf24; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; padding:2rem; max-width:960px; margin:0 auto; }
+    h1 { font-size:1.8rem; margin-bottom:.25rem; }
+    .tag { display:inline-block; background:#0ea5e933; color:var(--accent); padding:.2rem .6rem; border-radius:4px; font-size:.75rem; margin-right:.5rem; }
+    .sub { color:var(--muted); margin-bottom:2rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin:1.5rem 0; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1.2rem; }
+    .card h3 { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+    .card .v { font-size:1.6rem; font-weight:700; margin-top:.4rem; }
+    .pos { color:var(--green); }
+    section { margin:2rem 0; }
+    section h2 { font-size:1rem; margin-bottom:.75rem; padding-bottom:.4rem; border-bottom:1px solid var(--border); }
+    .flow { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; font-size:.85rem; }
+    .flow span { background:var(--card); border:1px solid var(--border); padding:.35rem .7rem; border-radius:6px; }
+    table { width:100%; border-collapse:collapse; font-size:.85rem; }
+    th,td { text-align:left; padding:.55rem .7rem; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); }
+    code { background:#1e293b; padding:.15rem .4rem; border-radius:4px; font-size:.8rem; }
+    .foot { color:var(--muted); font-size:.8rem; margin-top:3rem; }
+  </style>
+</head>
+<body>
+  <span class="tag">Bitget Hackathon S1</span><span class="tag">Track 1</span>
+  <h1>Bitget Fleet Grid Agent</h1>
+  <p class="sub">VPS 实盘舰队网格 × Bitget MCP 趋势自适应 · 可复现 Paper + 回测</p>
+
+  <div class="flow">
+    <span>MCP K线/费率</span><span>→</span>
+    <span>趋势 Agent</span><span>→</span>
+    <span>网格模式</span><span>→</span>
+    <span>Paper / Demo</span>
+  </div>
+
+  <div class="grid" id="metrics"></div>
+
+  <section>
+    <h2>网格参数（VPS Decibel 8083）</h2>
+    <table>
+      <tr><th>格数</th><td>22</td><th>半宽</th><td>±2.4%</td></tr>
+      <tr><th>杠杆</th><td>5x</td><th>模式</th><td>neutral / long / short / flat</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Agent 模式切换</h2>
+    <table>
+      <tr><th>市场</th><th>网格</th><th>行为</th></tr>
+      <tr><td>震荡 RANGE</td><td>中性</td><td>双边挂单</td></tr>
+      <tr><td>上涨 BULL</td><td>做多</td><td>仅下方买单</td></tr>
+      <tr><td>下跌 BEAR</td><td>做空</td><td>仅上方卖单</td></tr>
+      <tr><td>不明确</td><td>空仓</td><td>不挂单</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>评委复现</h2>
+    <p><code>npm install && npm run submit:prepare</code></p>
+    <p class="foot" id="ts"></p>
+  </section>
+
+  <script src="data.js"></script>
+  <script>
+    const d = window.DEMO_DATA;
+    if (d) {
+      document.getElementById('ts').textContent = '数据生成: ' + d.generatedAt;
+      const p = d.paper || {};
+      const ret = p.returnPct != null ? p.returnPct.toFixed(2) + '%' : '—';
+      const py = d.pythonBacktest || {};
+      document.getElementById('metrics').innerHTML = [
+        ['Paper 净利', (p.netPnl?.toFixed(2) ?? '—') + ' U', 'pos'],
+        ['Paper 收益率', ret, 'pos'],
+        ['Paper 成交', (p.trades ?? '—') + ' 笔', ''],
+        ['Python 回测', (py.total_return_pct ?? py.net_pnl_usd ?? '—') + (py.total_return_pct ? '%' : ' U'), 'pos'],
+        ['完整格数', p.roundTrips ?? '—', ''],
+        ['网格格数', d.gridParams?.gridCount ?? 22, ''],
+      ].map(([l,v,c]) => `<div class="card"><h3>${l}</h3><div class="v ${c}">${v}</div></div>`).join('');
+    } else {
+      document.getElementById('metrics').innerHTML = '<div class="card"><h3>提示</h3><div class="v" style="font-size:1rem">先运行 npm run submit:prepare</div></div>';
+    }
+  </script>
+</body>
+</html>

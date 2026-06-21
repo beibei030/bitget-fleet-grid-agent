@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-06-21T03:25:36.602301+00:00",
+  "metrics": {
+    "engine": "VPS fleet grid on Bitget candles",
+    "symbol": "SOLUSDT",
+    "interval": "1H",
+    "balance_usd": 1000,
+    "notional_usd": 4250.0,
+    "leverage": 5,
+    "range_half_pct": 0.024,
+    "grid_count": 22,
+    "round_trips": 729,
+    "round_trips_per_month": 729.0,
+    "grid_fills": 1466,
+    "volume_usd": 281172.66,
+    "net_pnl_usd": 214.67,
+    "total_return_pct": 21.47,
+    "daily_net_usd": 7.16,
+    "max_drawdown_usd": 4.19,
+    "break_range_count": 44,
+    "fees_usd": 84.31,
+    "funding_usd": 0.12,
+    "days_covered": 30.0
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "symbol": "BTCUSDT",
+  "price": 64391.6,
+  "funding8h": 0.000087,
+  "decision": {
+    "regime": "UNCLEAR",
+    "gridMode": "flat",
+    "confidence": 0.4,
+    "signals": {
+      "emaFast": 63822.03349768268,
+      "emaSlow": 63943.769382979444,
+      "emaSpreadPct": -0.19037958892859705,
+      "adx": 28.300588401797064,
+      "rsi": 73.82966358881643,
+      "funding8h": 0.000087,
+      "price": 64391.6
+    },
+    "reasoning": [
+      "EMA12/26 价差 -0.19%",
+      "ADX(14)=28.3 RSI=73.8 funding=0.0087%",
+      "信号不一致 → 空仓观望",
+      "置信度 40% 不足 → 空仓"
+    ],
+    "mcpToolsUsed": [
+      "futures_get_candles",
+      "futures_get_ticker"
+    ]
+  },
+  "plan": {
+    "symbol": "BTCUSDT",
+    "price": 64391.6,
+    "lower": 64391.6,
+    "upper": 64391.6,
+    "gridCount": 0,
+    "spacing": 0,
+    "sizeBase": 0,
+    "leverage": 5,
+    "gridMode": "flat",
+    "buyOrders": [],
+    "sellOrders": []
+  },
+  "decidedAt": "2026-06-21T03:25:31.552Z",
+  "mode": "dry-run",
+  "orderCount": 0,
+  "executed": false
+}

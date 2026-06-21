@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-06-21T03:25:36.673Z",
+  "files": [
+    "agent-backtest.md",
+    "agent-decision-SOLUSDT.json",
+    "backtest-report.json",
+    "backtest-report.md",
+    "demo-data.json",
+    "paper-trading.csv",
+    "paper-trading.json",
+    "python-backtest-metrics.json",
+    "python-backtest-trades.csv",
+    "SUMMARY.md"
+  ],
+  "reproduce": [
+    "npm install",
+    "npm run submit:prepare"
+  ]
+}

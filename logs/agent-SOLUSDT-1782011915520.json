@@ -1,0 +1,95 @@
+{
+  "symbol": "SOLUSDT",
+  "price": 73.529,
+  "funding8h": 0.000079,
+  "decision": {
+    "regime": "BULL",
+    "gridMode": "long",
+    "confidence": 0.9450000000000001,
+    "signals": {
+      "emaFast": 71.506972980757,
+      "emaSlow": 71.0865965544942,
+      "emaSpreadPct": 0.5913582118684634,
+      "adx": 34.209756694516564,
+      "rsi": 75.46640653578825,
+      "funding8h": 0.000079,
+      "price": 73.528
+    },
+    "reasoning": [
+      "EMA12/26 价差 0.59%",
+      "ADX(14)=34.2 RSI=75.5 funding=0.0079%",
+      "EMA 多头 + ADX 确认 → 上升趋势，做多网格",
+      "RSI 超买，降低做多置信度"
+    ],
+    "mcpToolsUsed": [
+      "futures_get_candles",
+      "futures_get_ticker"
+    ]
+  },
+  "plan": {
+    "symbol": "SOLUSDT",
+    "price": 73.529,
+    "lower": 71.764304,
+    "upper": 75.293696,
+    "gridCount": 22,
+    "spacing": 0.160427,
+    "sizeBase": 2.627287440082392,
+    "leverage": 5,
+    "gridMode": "long",
+    "buyOrders": [
+      {
+        "productType": "USDT-FUTURES",
+        "symbol": "SOLUSDT",
+        "side": "buy",
+        "tradeSide": "open",
+        "orderType": "limit",
+        "price": "71.76",
+        "size": "2.63",
+        "marginCoin": "USDT",
+        "force": "post_only",
+        "clientOid": "grid-b-72"
+      },
+      {
+        "productType": "USDT-FUTURES",
+        "symbol": "SOLUSDT",
+        "side": "buy",
+        "tradeSide": "open",
+        "orderType": "limit",
+        "price": "71.92",
+        "size": "2.63",
+        "marginCoin": "USDT",
+        "force": "post_only",
+        "clientOid": "grid-b-72"
+      },
+      {
+        "productType": "USDT-FUTURES",
+        "symbol": "SOLUSDT",
+        "side": "buy",
+        "tradeSide": "open",
+        "orderType": "limit",
+        "price": "72.09",
+        "size": "2.63",
+        "marginCoin": "USDT",
+        "force": "post_only",
+        "clientOid": "grid-b-72"
+      },
+      {
+        "productType": "USDT-FUTURES",
+        "symbol": "SOLUSDT",
+        "side": "buy",
+        "tradeSide": "open",
+        "orderType": "limit",
+        "price": "72.25",
+        "size": "2.63",
+        "marginCoin": "USDT",
+        "force": "post_only",
+        "clientOid": "grid-b-72"
+      }
+    ],
+    "sellOrders": []
+  },
+  "decidedAt": "2026-06-21T03:18:34.629Z",
+  "mode": "dry-run",
+  "orderCount": 4,
+  "executed": false
+}

@@ -1,0 +1,14 @@
+﻿{
+  "mcpServers": {
+    "bitget": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "bitget-mcp-server",
+        "--modules",
+        "spot,futures,account",
+        "--paper-trading"
+      ]
+    }
+  }
+}
