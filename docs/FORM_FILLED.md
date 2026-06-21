@@ -11,6 +11,8 @@
 | 项目名 | Bitget Fleet Grid Agent |
 | GitHub | https://github.com/beibei030/bitget-fleet-grid-agent |
 | Demo | https://beibei030.github.io/bitget-fleet-grid-agent/ |
+| Paper CSV | https://raw.githubusercontent.com/beibei030/bitget-fleet-grid-agent/main/submit/paper-trading.csv |
+| 回测报告 | https://github.com/beibei030/bitget-fleet-grid-agent/blob/main/submit/backtest-report.md |
 
 ## Paper 日志
 
