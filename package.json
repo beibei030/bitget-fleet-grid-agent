@@ -11,7 +11,8 @@
     "agent:backtest": "tsx src/run-agent-backtest.ts",
     "setup:mcp": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-bitget-mcp.ps1 -LoadEnv",
     "all": "tsx src/run-backtest.ts && tsx src/run-paper.ts && tsx src/run-agent-backtest.ts",
-    "submit:prepare": "tsx src/run-submit-pack.ts"
+    "submit:prepare": "tsx src/run-submit-pack.ts",
+    "open:form": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/open-submission-form.ps1"
   },
   "keywords": ["bitget", "hackathon", "grid-trading", "agent"],
   "license": "MIT",
