@@ -6,40 +6,89 @@
   <title>Bitget Fleet Grid Agent — Demo Video</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #f1f5f9; font-family: "Segoe UI", system-ui, sans-serif; overflow: hidden; }
-    .stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .6s; pointer-events: none; padding: 2rem; }
-    .stage.active { opacity: 1; pointer-events: auto; }
-    .card { background: #121826; border: 1px solid #1e293b; border-radius: 16px; padding: 2.5rem; max-width: 920px; width: 100%; }
-    h1 { font-size: 2rem; margin-bottom: .5rem; }
-    h2 { font-size: 1.25rem; color: #94a3b8; margin-bottom: 1.5rem; font-weight: 500; }
-    .tag { display: inline-block; background: #0ea5e933; color: #38bdf8; padding: .25rem .7rem; border-radius: 6px; font-size: .8rem; margin-right: .5rem; }
+    html, body { height: 100%; }
+    body {
+      background: #0a0e17;
+      color: #f1f5f9;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      overflow: hidden;
+    }
+    .stage {
+      position: fixed; inset: 0;
+      display: none;
+      align-items: center; justify-content: center;
+      padding: 2rem;
+      background: #0a0e17;
+    }
+    .stage.active { display: flex; }
+    .card {
+      background: #121826;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 920px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+    }
+    h1 { font-size: 2rem; margin-bottom: .5rem; color: #f8fafc; }
+    h2 { font-size: 1.15rem; color: #94a3b8; margin-bottom: 1.5rem; font-weight: 500; }
+    .tag {
+      display: inline-block;
+      background: #0ea5e933;
+      color: #38bdf8;
+      padding: .25rem .7rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      margin: 0 .35rem .35rem 0;
+    }
     .flow { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .9rem; margin: 1rem 0; }
     .flow span { background: #1e293b; padding: .4rem .8rem; border-radius: 8px; }
     .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
-    .m { background: #0a0e17; border-radius: 10px; padding: 1rem; text-align: center; }
+    .m { background: #0a0e17; border-radius: 10px; padding: 1rem; text-align: center; border: 1px solid #1e293b; }
     .m b { display: block; font-size: 1.5rem; color: #4ade80; margin-top: .3rem; }
-    .m span { font-size: .75rem; color: #94a3b8; text-transform: uppercase; }
+    .m span { font-size: .75rem; color: #94a3b8; }
     .neg b { color: #f87171; }
-    .term { background: #0a0e17; border-radius: 12px; padding: 1.2rem; font-family: Consolas, monospace; font-size: .82rem; line-height: 1.55; max-height: 420px; overflow: hidden; border: 1px solid #1e293b; }
-    .term .line { opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; white-space: pre-wrap; word-break: break-all; }
-    .term .line.show { opacity: 1; transform: none; }
+    .term {
+      background: #0a0e17;
+      border-radius: 12px;
+      padding: 1.2rem;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: .82rem;
+      line-height: 1.55;
+      max-height: 420px;
+      overflow-y: auto;
+      border: 1px solid #1e293b;
+    }
+    .term .line { min-height: 1.2em; white-space: pre-wrap; word-break: break-all; }
     .term .hi { color: #4ade80; }
     .term .warn { color: #fbbf24; }
     .term .cmd { color: #38bdf8; }
-    .bar { position: fixed; bottom: 0; left: 0; height: 3px; background: #38bdf8; width: 0; transition: width .2s linear; z-index: 9; }
-    .ctrl { position: fixed; bottom: 1rem; right: 1rem; z-index: 10; }
-    .ctrl button { background: #1e293b; border: 1px solid #334155; color: #f1f5f9; padding: .5rem 1rem; border-radius: 8px; cursor: pointer; font-size: .85rem; }
+    .bar { position: fixed; bottom: 0; left: 0; height: 4px; background: #38bdf8; width: 0; z-index: 9; transition: width .15s linear; }
+    .ctrl { position: fixed; bottom: 1rem; right: 1rem; z-index: 10; display: flex; gap: .5rem; }
+    .ctrl button {
+      background: #1e293b; border: 1px solid #475569; color: #f1f5f9;
+      padding: .55rem 1rem; border-radius: 8px; cursor: pointer; font-size: .85rem;
+    }
     .ctrl button:hover { background: #334155; }
     table { width: 100%; font-size: .85rem; border-collapse: collapse; margin-top: 1rem; }
     th, td { padding: .5rem .6rem; border-bottom: 1px solid #1e293b; text-align: left; }
     th { color: #94a3b8; }
-    .big { font-size: 3rem; font-weight: 800; text-align: center; margin: 1rem 0; }
-    .sub { text-align: center; color: #94a3b8; }
+    .big { font-size: 2.6rem; font-weight: 800; text-align: center; margin: 1rem 0; color: #f8fafc; }
+    .sub { text-align: center; color: #94a3b8; line-height: 1.6; }
+    .hint { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); color: #64748b; font-size: .8rem; z-index: 8; }
+    video.wrap { width: 100%; max-width: 720px; border-radius: 12px; margin-top: 1rem; display: block; }
+    .links { margin-top: 1.2rem; font-size: .85rem; }
+    .links a { color: #38bdf8; }
   </style>
 </head>
 <body>
+  <div class="hint">自动播放中 · 约 2 分钟</div>
   <div class="bar" id="bar"></div>
-  <div class="ctrl"><button id="replay">重播 Demo</button></div>
+  <div class="ctrl">
+    <button type="button" id="prev">上一页</button>
+    <button type="button" id="replay">重播</button>
+    <button type="button" id="next">下一页</button>
+  </div>
 
   <div class="stage active" id="s0">
     <div class="card" style="text-align:center">
@@ -59,7 +108,7 @@
         <div class="m"><span>Agent 自适应 30天</span><b>+0.73 U</b></div>
         <div class="m"><span>Paper 7天 SOL</span><b>+3.0%</b></div>
       </div>
-      <p style="margin-top:1.5rem;color:#94a3b8;font-size:.9rem">参数来自 VPS Decibel 8083：22格 / ±2.4% / 5x — 不是纸上参数</p>
+      <p style="margin-top:1.5rem;color:#94a3b8;font-size:.9rem">参数来自 VPS Decibel 8083：22格 / ±2.4% / 5x</p>
     </div>
   </div>
 
@@ -70,7 +119,7 @@
       <div class="flow">
         <span>futures_get_candles</span><span>→</span>
         <span>EMA / ADX / RSI</span><span>→</span>
-        <span>neutral | long | short | flat</span><span>→</span>
+        <span>neutral / long / short / flat</span><span>→</span>
         <span>post_only 限价单</span>
       </div>
       <table>
@@ -96,113 +145,165 @@
       <h1>可核查材料</h1>
       <h2>评委一键复现</h2>
       <div class="term" style="max-height:none">
-        <div class="line show cmd">git clone https://github.com/beibei030/bitget-fleet-grid-agent</div>
-        <div class="line show cmd">npm install && npm run submit:prepare</div>
+        <div class="line cmd">git clone https://github.com/beibei030/bitget-fleet-grid-agent</div>
+        <div class="line cmd">npm install && npm run submit:prepare</div>
       </div>
       <div class="metrics">
         <div class="m"><span>Paper CSV</span><b>117 笔</b></div>
         <div class="m"><span>决策 JSON</span><b>可审计</b></div>
-        <div class="m"><span>Python 交叉验证</span><b>+21.47%</b></div>
+        <div class="m"><span>Python 回测</span><b>+21.47%</b></div>
       </div>
-      <p style="margin-top:1rem;font-size:.85rem;color:#64748b">github.com/beibei030/bitget-fleet-grid-agent</p>
+      <p class="links"><a href="https://github.com/beibei030/bitget-fleet-grid-agent" target="_blank">GitHub 仓库</a></p>
     </div>
   </div>
 
   <div class="stage" id="s5">
     <div class="card" style="text-align:center">
       <div class="big" style="font-size:2rem">谢谢观看</div>
-      <p class="sub">Bitget Fleet Grid Agent — 震荡铺网，趋势顺势，不确定空仓</p>
-      <p class="sub" style="margin-top:1.5rem;font-size:.85rem">
-        Demo: beibei030.github.io/bitget-fleet-grid-agent/video.html
+      <p class="sub">震荡铺网 · 趋势顺势 · 不确定空仓</p>
+      <video class="wrap" controls playsinline poster="">
+        <source src="BitgetFleetGrid-Demo.mp4" type="video/mp4" />
+        您的浏览器不支持 video，请下载 MP4。
+      </video>
+      <p class="sub links" style="margin-top:1rem">
+        <a href="BitgetFleetGrid-Demo.mp4" download>下载 MP4 演示</a>
+        ·
+        <a href="index.html">返回仪表盘</a>
       </p>
     </div>
   </div>
 
   <script>
-    const TERMINAL_LINES = [
-      { t: 'cmd', s: '> npm run agent:grid -- --symbol SOLUSDT' },
-      { t: '', s: '' },
-      { t: '', s: '=== Agent 自适应网格 ===' },
-      { t: '', s: '标的: SOLUSDT | dry-run' },
-      { t: '', s: '' },
-      { t: 'hi', s: '[1] MCP futures_get_candles + futures_get_ticker …' },
-      { t: '', s: '市场状态: BULL  |  网格模式: 做多网格  |  置信度: 94.5%' },
-      { t: '', s: '现价: 73.69  |  EMA价差: 0.61%  |  ADX: 34.2  |  RSI: 75.9' },
-      { t: '', s: '' },
-      { t: 'warn', s: '推理:' },
-      { t: '', s: '  - EMA12/26 价差 0.61%' },
-      { t: '', s: '  - ADX(14)=34.2 RSI=75.9 funding=0.0058%' },
-      { t: '', s: '  - EMA 多头 + ADX 确认 → 上升趋势，做多网格' },
-      { t: 'warn', s: '  - RSI 超买，降低做多置信度' },
-      { t: '', s: '' },
-      { t: 'hi', s: '# 网格计划 SOLUSDT' },
-      { t: '', s: '模式: 做多  |  区间: 71.92 ~ 75.46 (±2.4%)  |  22格 5x' },
-      { t: '', s: '' },
-      { t: 'hi', s: '买单（低于现价）:' },
-      { t: '', s: '  71.92 × 2.62 SOL' },
-      { t: '', s: '  72.08 × 2.62 SOL' },
-      { t: '', s: '  72.24 × 2.62 SOL' },
-      { t: '', s: '  72.40 × 2.62 SOL' },
-      { t: '', s: '' },
-      { t: 'warn', s: '[3] dry-run — 将挂 4 单 (long)' },
-      { t: '', s: '日志 → logs/agent-SOLUSDT-*.json' },
-    ];
+    (function () {
+      var TERMINAL = [
+        "> npm run agent:grid -- --symbol SOLUSDT",
+        "",
+        "=== Agent 自适应网格 ===",
+        "标的: SOLUSDT | dry-run",
+        "",
+        "[1] MCP futures_get_candles + futures_get_ticker",
+        "市场状态: BULL | 网格模式: 做多网格 | 置信度: 94.5%",
+        "现价: 73.69 | EMA价差: 0.61% | ADX: 34.2 | RSI: 75.9",
+        "",
+        "推理:",
+        "  - EMA12/26 价差 0.61%",
+        "  - ADX(14)=34.2 RSI=75.9 funding=0.0058%",
+        "  - EMA 多头 + ADX 确认 -> 上升趋势，做多网格",
+        "  - RSI 超买，降低做多置信度",
+        "",
+        "# 网格计划 SOLUSDT",
+        "模式: 做多 | 区间: 71.92 ~ 75.46 (+/-2.4%) | 22格 5x",
+        "",
+        "买单（低于现价）:",
+        "  71.92 x 2.62 SOL",
+        "  72.08 x 2.62 SOL",
+        "  72.24 x 2.62 SOL",
+        "  72.40 x 2.62 SOL",
+        "",
+        "[3] dry-run - 将挂 4 单 (long)",
+        "日志 -> logs/agent-SOLUSDT-*.json"
+      ];
 
-    const SCENES = [
-      { id: 's0', dur: 5000 },
-      { id: 's1', dur: 8000 },
-      { id: 's2', dur: 10000 },
-      { id: 's3', dur: 55000, terminal: true },
-      { id: 's4', dur: 12000 },
-      { id: 's5', dur: 6000 },
-    ];
-    const TOTAL = SCENES.reduce((a, s) => a + s.dur, 0);
+      var SCENES = [
+        { id: "s0", dur: 5000 },
+        { id: "s1", dur: 8000 },
+        { id: "s2", dur: 9000 },
+        { id: "s3", dur: 50000, terminal: true },
+        { id: "s4", dur: 10000 },
+        { id: "s5", dur: 8000 }
+      ];
+      var TOTAL = 0;
+      for (var i = 0; i < SCENES.length; i++) TOTAL += SCENES[i].dur;
 
-    let runId = 0;
-    function $(id) { return document.getElementById(id); }
+      var sessionId = 0;
+      var manualIdx = -1;
+      var timer = null;
 
-    async function typeTerminal() {
-      const box = $('terminal');
-      box.innerHTML = '';
-      for (const line of TERMINAL_LINES) {
-        if (runId !== window.__demoRun) return;
-        const el = document.createElement('div');
-        el.className = 'line ' + (line.t || '');
-        el.textContent = line.s;
-        box.appendChild(el);
-        await new Promise(r => setTimeout(r, line.s === '' ? 80 : 420));
-        if (runId !== window.__demoRun) return;
-        el.classList.add('show');
-        box.scrollTop = box.scrollHeight;
+      function el(id) { return document.getElementById(id); }
+
+      function showScene(id) {
+        var nodes = document.querySelectorAll(".stage");
+        for (var i = 0; i < nodes.length; i++) nodes[i].classList.remove("active");
+        el(id).classList.add("active");
       }
-    }
 
-    async function playDemo() {
-      runId = ++window.__demoRun;
-      const myRun = runId;
-      $('bar').style.width = '0%';
-      SCENES.forEach(s => $(s.id).classList.remove('active'));
-      let elapsed = 0;
-      const bar = $('bar');
-      const tick = setInterval(() => {
-        if (myRun !== runId) { clearInterval(tick); return; }
-        elapsed += 200;
-        bar.style.width = Math.min(100, (elapsed / TOTAL) * 100) + '%';
-        if (elapsed >= TOTAL) clearInterval(tick);
-      }, 200);
-
-      for (const scene of SCENES) {
-        if (myRun !== runId) return;
-        SCENES.forEach(s => $(s.id).classList.remove('active'));
-        $(scene.id).classList.add('active');
-        if (scene.terminal) typeTerminal();
-        await new Promise(r => setTimeout(r, scene.dur));
+      function sleep(ms) {
+        return new Promise(function (resolve) { setTimeout(resolve, ms); });
       }
-      if (myRun === runId) $('s5').classList.add('active');
-    }
 
-    $('replay').onclick = () => playDemo();
-    playDemo();
+      async function typeTerminal(sid) {
+        var box = el("terminal");
+        box.innerHTML = "";
+        for (var i = 0; i < TERMINAL.length; i++) {
+          if (sid !== sessionId) return;
+          var line = TERMINAL[i];
+          var div = document.createElement("div");
+          div.className = "line";
+          if (line.indexOf("> npm") === 0) div.className += " cmd";
+          else if (line.indexOf("[") === 0 || line.indexOf("#") === 0) div.className += " hi";
+          else if (line.indexOf("推理") === 0 || line.indexOf("[3]") === 0) div.className += " warn";
+          div.textContent = line;
+          box.appendChild(div);
+          box.scrollTop = box.scrollHeight;
+          await sleep(line === "" ? 60 : 350);
+        }
+      }
+
+      async function playAuto() {
+        manualIdx = -1;
+        var sid = ++sessionId;
+        if (timer) clearInterval(timer);
+        var elapsed = 0;
+        el("bar").style.width = "0%";
+        timer = setInterval(function () {
+          elapsed += 200;
+          el("bar").style.width = Math.min(100, elapsed / TOTAL * 100) + "%";
+          if (elapsed >= TOTAL) clearInterval(timer);
+        }, 200);
+
+        for (var s = 0; s < SCENES.length; s++) {
+          if (sid !== sessionId) return;
+          var scene = SCENES[s];
+          showScene(scene.id);
+          if (scene.terminal) typeTerminal(sid);
+          await sleep(scene.dur);
+        }
+        if (sid === sessionId) showScene("s5");
+      }
+
+      function showManual(idx) {
+        sessionId++;
+        if (timer) clearInterval(timer);
+        manualIdx = idx;
+        showScene(SCENES[idx].id);
+        if (SCENES[idx].terminal) {
+          var box = el("terminal");
+          box.innerHTML = "";
+          for (var i = 0; i < TERMINAL.length; i++) {
+            var div = document.createElement("div");
+            div.className = "line";
+            div.textContent = TERMINAL[i];
+            box.appendChild(div);
+          }
+        }
+        el("bar").style.width = ((idx + 1) / SCENES.length * 100) + "%";
+      }
+
+      el("replay").onclick = function () { playAuto(); };
+      el("next").onclick = function () {
+        var idx = manualIdx < 0 ? 0 : manualIdx + 1;
+        if (idx >= SCENES.length) idx = SCENES.length - 1;
+        showManual(idx);
+      };
+      el("prev").onclick = function () {
+        var idx = manualIdx < 0 ? 0 : manualIdx - 1;
+        if (idx < 0) idx = 0;
+        showManual(idx);
+      };
+
+      showScene("s0");
+      playAuto();
+    })();
   </script>
 </body>
 </html>
