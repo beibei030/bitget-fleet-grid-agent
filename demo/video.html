@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bitget Fleet Grid Agent — Demo Video</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #f1f5f9; font-family: "Segoe UI", system-ui, sans-serif; overflow: hidden; }
+    .stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .6s; pointer-events: none; padding: 2rem; }
+    .stage.active { opacity: 1; pointer-events: auto; }
+    .card { background: #121826; border: 1px solid #1e293b; border-radius: 16px; padding: 2.5rem; max-width: 920px; width: 100%; }
+    h1 { font-size: 2rem; margin-bottom: .5rem; }
+    h2 { font-size: 1.25rem; color: #94a3b8; margin-bottom: 1.5rem; font-weight: 500; }
+    .tag { display: inline-block; background: #0ea5e933; color: #38bdf8; padding: .25rem .7rem; border-radius: 6px; font-size: .8rem; margin-right: .5rem; }
+    .flow { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; font-size: .9rem; margin: 1rem 0; }
+    .flow span { background: #1e293b; padding: .4rem .8rem; border-radius: 8px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+    .m { background: #0a0e17; border-radius: 10px; padding: 1rem; text-align: center; }
+    .m b { display: block; font-size: 1.5rem; color: #4ade80; margin-top: .3rem; }
+    .m span { font-size: .75rem; color: #94a3b8; text-transform: uppercase; }
+    .neg b { color: #f87171; }
+    .term { background: #0a0e17; border-radius: 12px; padding: 1.2rem; font-family: Consolas, monospace; font-size: .82rem; line-height: 1.55; max-height: 420px; overflow: hidden; border: 1px solid #1e293b; }
+    .term .line { opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; white-space: pre-wrap; word-break: break-all; }
+    .term .line.show { opacity: 1; transform: none; }
+    .term .hi { color: #4ade80; }
+    .term .warn { color: #fbbf24; }
+    .term .cmd { color: #38bdf8; }
+    .bar { position: fixed; bottom: 0; left: 0; height: 3px; background: #38bdf8; width: 0; transition: width .2s linear; z-index: 9; }
+    .ctrl { position: fixed; bottom: 1rem; right: 1rem; z-index: 10; }
+    .ctrl button { background: #1e293b; border: 1px solid #334155; color: #f1f5f9; padding: .5rem 1rem; border-radius: 8px; cursor: pointer; font-size: .85rem; }
+    .ctrl button:hover { background: #334155; }
+    table { width: 100%; font-size: .85rem; border-collapse: collapse; margin-top: 1rem; }
+    th, td { padding: .5rem .6rem; border-bottom: 1px solid #1e293b; text-align: left; }
+    th { color: #94a3b8; }
+    .big { font-size: 3rem; font-weight: 800; text-align: center; margin: 1rem 0; }
+    .sub { text-align: center; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="bar" id="bar"></div>
+  <div class="ctrl"><button id="replay">重播 Demo</button></div>
+
+  <div class="stage active" id="s0">
+    <div class="card" style="text-align:center">
+      <div><span class="tag">Bitget Hackathon S1</span><span class="tag">Track 1 · 交易 Agent</span></div>
+      <div class="big">Bitget Fleet Grid Agent</div>
+      <p class="sub">VPS 实盘舰队网格 × Bitget MCP 趋势自适应</p>
+      <p class="sub" style="margin-top:1rem;font-size:.85rem">演示时长 ~2 分钟 · 基于真实 Bitget API 输出</p>
+    </div>
+  </div>
+
+  <div class="stage" id="s1">
+    <div class="card">
+      <h1>为什么需要 Agent？</h1>
+      <h2>固定中性网格在趋势行情里会亏</h2>
+      <div class="metrics">
+        <div class="m neg"><span>固定网格 30天</span><b>-424 U</b></div>
+        <div class="m"><span>Agent 自适应 30天</span><b>+0.73 U</b></div>
+        <div class="m"><span>Paper 7天 SOL</span><b>+3.0%</b></div>
+      </div>
+      <p style="margin-top:1.5rem;color:#94a3b8;font-size:.9rem">参数来自 VPS Decibel 8083：22格 / ±2.4% / 5x — 不是纸上参数</p>
+    </div>
+  </div>
+
+  <div class="stage" id="s2">
+    <div class="card">
+      <h1>Agent 架构</h1>
+      <h2>MCP 感知 → 规则决策 → 网格执行</h2>
+      <div class="flow">
+        <span>futures_get_candles</span><span>→</span>
+        <span>EMA / ADX / RSI</span><span>→</span>
+        <span>neutral | long | short | flat</span><span>→</span>
+        <span>post_only 限价单</span>
+      </div>
+      <table>
+        <tr><th>状态</th><th>网格</th><th>行为</th></tr>
+        <tr><td>震荡 RANGE</td><td>中性</td><td>双边挂单</td></tr>
+        <tr><td>上涨 BULL</td><td>做多</td><td>仅下方买单</td></tr>
+        <tr><td>下跌 BEAR</td><td>做空</td><td>仅上方卖单</td></tr>
+        <tr><td>不明确</td><td>空仓</td><td>不挂单</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="stage" id="s3">
+    <div class="card">
+      <h1>Live Demo · npm run agent:grid</h1>
+      <h2>实时拉取 Bitget 4H K 线 + 资金费率</h2>
+      <div class="term" id="terminal"></div>
+    </div>
+  </div>
+
+  <div class="stage" id="s4">
+    <div class="card">
+      <h1>可核查材料</h1>
+      <h2>评委一键复现</h2>
+      <div class="term" style="max-height:none">
+        <div class="line show cmd">git clone https://github.com/beibei030/bitget-fleet-grid-agent</div>
+        <div class="line show cmd">npm install && npm run submit:prepare</div>
+      </div>
+      <div class="metrics">
+        <div class="m"><span>Paper CSV</span><b>117 笔</b></div>
+        <div class="m"><span>决策 JSON</span><b>可审计</b></div>
+        <div class="m"><span>Python 交叉验证</span><b>+21.47%</b></div>
+      </div>
+      <p style="margin-top:1rem;font-size:.85rem;color:#64748b">github.com/beibei030/bitget-fleet-grid-agent</p>
+    </div>
+  </div>
+
+  <div class="stage" id="s5">
+    <div class="card" style="text-align:center">
+      <div class="big" style="font-size:2rem">谢谢观看</div>
+      <p class="sub">Bitget Fleet Grid Agent — 震荡铺网，趋势顺势，不确定空仓</p>
+      <p class="sub" style="margin-top:1.5rem;font-size:.85rem">
+        Demo: beibei030.github.io/bitget-fleet-grid-agent/video.html
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const TERMINAL_LINES = [
+      { t: 'cmd', s: '> npm run agent:grid -- --symbol SOLUSDT' },
+      { t: '', s: '' },
+      { t: '', s: '=== Agent 自适应网格 ===' },
+      { t: '', s: '标的: SOLUSDT | dry-run' },
+      { t: '', s: '' },
+      { t: 'hi', s: '[1] MCP futures_get_candles + futures_get_ticker …' },
+      { t: '', s: '市场状态: BULL  |  网格模式: 做多网格  |  置信度: 94.5%' },
+      { t: '', s: '现价: 73.69  |  EMA价差: 0.61%  |  ADX: 34.2  |  RSI: 75.9' },
+      { t: '', s: '' },
+      { t: 'warn', s: '推理:' },
+      { t: '', s: '  - EMA12/26 价差 0.61%' },
+      { t: '', s: '  - ADX(14)=34.2 RSI=75.9 funding=0.0058%' },
+      { t: '', s: '  - EMA 多头 + ADX 确认 → 上升趋势，做多网格' },
+      { t: 'warn', s: '  - RSI 超买，降低做多置信度' },
+      { t: '', s: '' },
+      { t: 'hi', s: '# 网格计划 SOLUSDT' },
+      { t: '', s: '模式: 做多  |  区间: 71.92 ~ 75.46 (±2.4%)  |  22格 5x' },
+      { t: '', s: '' },
+      { t: 'hi', s: '买单（低于现价）:' },
+      { t: '', s: '  71.92 × 2.62 SOL' },
+      { t: '', s: '  72.08 × 2.62 SOL' },
+      { t: '', s: '  72.24 × 2.62 SOL' },
+      { t: '', s: '  72.40 × 2.62 SOL' },
+      { t: '', s: '' },
+      { t: 'warn', s: '[3] dry-run — 将挂 4 单 (long)' },
+      { t: '', s: '日志 → logs/agent-SOLUSDT-*.json' },
+    ];
+
+    const SCENES = [
+      { id: 's0', dur: 5000 },
+      { id: 's1', dur: 8000 },
+      { id: 's2', dur: 10000 },
+      { id: 's3', dur: 55000, terminal: true },
+      { id: 's4', dur: 12000 },
+      { id: 's5', dur: 6000 },
+    ];
+    const TOTAL = SCENES.reduce((a, s) => a + s.dur, 0);
+
+    let runId = 0;
+    function $(id) { return document.getElementById(id); }
+
+    async function typeTerminal() {
+      const box = $('terminal');
+      box.innerHTML = '';
+      for (const line of TERMINAL_LINES) {
+        if (runId !== window.__demoRun) return;
+        const el = document.createElement('div');
+        el.className = 'line ' + (line.t || '');
+        el.textContent = line.s;
+        box.appendChild(el);
+        await new Promise(r => setTimeout(r, line.s === '' ? 80 : 420));
+        if (runId !== window.__demoRun) return;
+        el.classList.add('show');
+        box.scrollTop = box.scrollHeight;
+      }
+    }
+
+    async function playDemo() {
+      runId = ++window.__demoRun;
+      const myRun = runId;
+      $('bar').style.width = '0%';
+      SCENES.forEach(s => $(s.id).classList.remove('active'));
+      let elapsed = 0;
+      const bar = $('bar');
+      const tick = setInterval(() => {
+        if (myRun !== runId) { clearInterval(tick); return; }
+        elapsed += 200;
+        bar.style.width = Math.min(100, (elapsed / TOTAL) * 100) + '%';
+        if (elapsed >= TOTAL) clearInterval(tick);
+      }, 200);
+
+      for (const scene of SCENES) {
+        if (myRun !== runId) return;
+        SCENES.forEach(s => $(s.id).classList.remove('active'));
+        $(scene.id).classList.add('active');
+        if (scene.terminal) typeTerminal();
+        await new Promise(r => setTimeout(r, scene.dur));
+      }
+      if (myRun === runId) $('s5').classList.add('active');
+    }
+
+    $('replay').onclick = () => playDemo();
+    playDemo();
+  </script>
+</body>
+</html>

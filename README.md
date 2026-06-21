@@ -106,6 +106,8 @@ npm run agent:grid -- --execute --symbol SOLUSDT
 - 表单：https://forms.gle/GDQNx5TnCBvYuPin9
 - 仓库：https://github.com/beibei030/bitget-fleet-grid-agent
 - Demo：https://beibei030.github.io/bitget-fleet-grid-agent/
+- **演示视频（2分钟）**：https://beibei030.github.io/bitget-fleet-grid-agent/video.html
+- MP4 直链：https://github.com/beibei030/bitget-fleet-grid-agent/raw/main/demo/BitgetFleetGrid-Demo.mp4
 - 详情：`docs/SUBMISSION.md`
 
 ## License
